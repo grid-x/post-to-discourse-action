@@ -1,0 +1,38 @@
+name: 'OpenAPI Discourse Upload Action'
+description:
+  'Uploads an OpenAPI specification to a Discourse topic for rendering using
+  https://github.com/wwerner/discourse-rapidoc-theme-component'
+author: 'wwerner'
+
+branding:
+  icon: 'file'
+  color: 'green'
+
+# Define your inputs here.
+inputs:
+  discourse_url:
+    description: 'your discourse instance domain, e.g. "community.acme.com'
+    required: true
+  discourse_post_id:
+    description: 'the ID of the Discourse post to reply to'
+    required: true
+  discourse_api_key:
+    description: 'your discourse API key. It needs `FIXME` permissions'
+    required: true
+  discourse_user:
+    description:
+      'the discourse user on whose behalf the action should be executed'
+    required: true
+  content_file:
+    description: 'the file to load the content to post from'
+    required: false
+  content:
+    description: 'the string to post'
+    required: false
+  github_sha:
+    description: 'short commit hash to be put into to post for traceability'
+    required: true
+
+runs:
+  using: node20
+  main: dist/index.js
