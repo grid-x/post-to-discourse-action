@@ -25,6 +25,11 @@ export async function run(
     const post = async (
       postBody: string
     ): Promise<void> => {
+      if(!postBody) {
+        core.info('No changes detected. Skipping.')
+        return;
+      }
+
       // ref: https://docs.discourse.org/#tag/Posts/operation/createTopicPostPM
       const http = Axios.create({
         baseURL: `https://${discourseUrl}`,
@@ -56,11 +61,11 @@ export async function run(
     const postBody = (
       content: string,
       commit: string
-    ): string => `# Changelog ${new Date().toISOString()}
+    ): string => content ? `# Changelog ${new Date().toISOString()}
 ${content}
 
 (sha ${commit.trim()})
-`
+` : '';
 
     const contentToPost = contentFile
       ? fs.readFileSync(contentFile)?.toString()
