@@ -17,11 +17,11 @@ finally upload the changelogs with the action from this repository.
 
 - `discourse_url` - your discourse instance domain, e.g.
   "community.developer.gridx.de
-- `discourse_post_id` - the ID of the Discourse post to reply to. You can find
+- `discourse_topic_id` - the ID of the Discourse post to reply to. You can find
   the ID, e.g., by inspecting your post in the browser and looking for
-  `data-post-id="<n>"` in the `article` element. (XPath
-  `//article/@data-post-id`) ![Discourse Post ID](doc-post-id.png)
-- `discourse_api_key` - your discourse API key. It needs `FIXME` permissions.
+  `data-topic-id="<n>"` in the `article` element. (XPath
+  `//h1/@data-topic-id`) ![Discourse Topic ID](doc-topic-id.png)
+- `discourse_api_key` - your discourse API key. It needs `topics:write` permissions.
   ![Discourse API Key](doc-discourse-api-key.png)
 - `discourse_user` - the discourse user on whose behalf the action should be
   executed.
@@ -35,7 +35,22 @@ finally upload the changelogs with the action from this repository.
 
 ## Instructions
 
-1. ...
+1. Create a topic for your changelogs. This action will be configured to post the changelog as a reply to this topic.
+1. Get the required parameters as described above
+1. Configure the action in your GH workflow, preferably on release
+
+```yaml
+- name: Test Action against gridX community example post
+  uses: ./
+  with:
+    discourse_url: ${{secrets.DISCOURSE_URL}}
+    discourse_topic_id: <n>
+    discourse_api_key: ${{secrets.DISCOURSE_API_KEY}}
+    discourse_user: ${{secrets.DISCOURSE_USER}}
+    github_sha: ${{env.SHORT_SHA}}
+    content_file: ./changelog.md
+    # OR content: "content as string"
+```
 
 ## Development
 
