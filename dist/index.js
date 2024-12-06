@@ -31866,7 +31866,6 @@ AxiosError.from = (error, code, config, request, response, customProps) => {
 
 // EXTERNAL MODULE: ./node_modules/form-data/lib/form_data.js
 var form_data = __nccwpck_require__(6454);
-var form_data_default = /*#__PURE__*/__nccwpck_require__.n(form_data);
 ;// CONCATENATED MODULE: ./node_modules/axios/lib/platform/node/classes/FormData.js
 
 
@@ -36075,18 +36074,21 @@ var external_fs_default = /*#__PURE__*/__nccwpck_require__.n(external_fs_);
 
 
 
-
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
-async function run(discourseUrl, discoursePostId, discourseApiKey, discourseUser, commit, content, contentFile) {
+async function run(discourseUrl, discourseTopicId, discourseApiKey, discourseUser, commit, content, contentFile) {
     try {
         const discourseHeaders = {
             'Api-Key': discourseApiKey,
             'Api-Username': discourseUser
         };
         const post = async (postBody) => {
+            if (!postBody?.trim()) {
+                core.info('No changes detected. Skipping.');
+                return;
+            }
             // ref: https://docs.discourse.org/#tag/Posts/operation/createTopicPostPM
             const http = lib_axios.create({
                 baseURL: `https://${discourseUrl}`,
@@ -36097,16 +36099,11 @@ async function run(discourseUrl, discoursePostId, discourseApiKey, discourseUser
                     Accept: 'application/json'
                 }
             });
-            http.interceptors.request.use(config => {
-                if (config.data instanceof (form_data_default())) {
-                    Object.assign(config.headers, config.data.getHeaders());
-                }
-                return config;
-            });
             return http
                 .post('/posts.json', {
                 raw: postBody,
-                reply_to_post_number: discoursePostId
+                topic_id: discourseTopicId,
+                reply_to_post_number: discourseTopicId
             })
                 .then(({ data }) => {
                 core.debug(JSON.stringify(data, null, 2));
@@ -36116,18 +36113,20 @@ async function run(discourseUrl, discoursePostId, discourseApiKey, discourseUser
                 throw e;
             });
         };
-        const postBody = (content, commit) => `## Changelog ${new Date().toISOString()}
+        const postBody = (content, commit) => content
+            ? `# Changelog ${new Date().toISOString()}
 ${content}
 
 (sha ${commit.trim()})
-`;
+`
+            : '';
         const contentToPost = contentFile
             ? external_fs_default().readFileSync(contentFile)?.toString()
             : content;
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Adding changelog to post #${discoursePostId}`);
-        await post(postBody(content, commit));
-        core.debug('Changelog posted');
+        core.info(`Adding changelog to post #${discourseTopicId}`);
+        await post(postBody(contentToPost, commit));
+        core.info('Changelog posted');
     }
     catch (error) {
         // Fail the workflow run if an error occurs
@@ -36144,13 +36143,13 @@ ${content}
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 const discourseUrl = core.getInput('discourse_url');
-const discoursePostId = core.getInput('discourse_post_id');
+const discourseTopicId = core.getInput('discourse_topic_id');
 const discourseApiKey = core.getInput('discourse_api_key');
 const discourseUser = core.getInput('discourse_user');
 const commit = core.getInput('github_sha');
 const content = core.getInput('content');
 const contentFile = core.getInput('content_file');
-run(discourseUrl, discoursePostId, discourseApiKey, discourseUser, commit, content, contentFile);
+run(discourseUrl, discourseTopicId, discourseApiKey, discourseUser, commit, content, contentFile);
 
 
 //# sourceMappingURL=index.js.map

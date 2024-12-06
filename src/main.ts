@@ -22,12 +22,10 @@ export async function run(
       'Api-Username': discourseUser
     }
 
-    const post = async (
-      postBody: string
-    ): Promise<void> => {
-      if(!postBody?.trim()) {
+    const post = async (postBody: string): Promise<void> => {
+      if (!postBody?.trim()) {
         core.info('No changes detected. Skipping.')
-        return;
+        return
       }
 
       // ref: https://docs.discourse.org/#tag/Posts/operation/createTopicPostPM
@@ -58,14 +56,14 @@ export async function run(
         })
     }
 
-    const postBody = (
-      content: string,
-      commit: string
-    ): string => content ? `# Changelog ${new Date().toISOString()}
+    const postBody = (content: string, commit: string): string =>
+      content
+        ? `# Changelog ${new Date().toISOString()}
 ${content}
 
 (sha ${commit.trim()})
-` : '';
+`
+        : ''
 
     const contentToPost = contentFile
       ? fs.readFileSync(contentFile)?.toString()
