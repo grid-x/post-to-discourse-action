@@ -25,7 +25,7 @@ export async function run(
     const post = async (
       postBody: string
     ): Promise<void> => {
-      if(!postBody) {
+      if(!postBody?.trim()) {
         core.info('No changes detected. Skipping.')
         return;
       }
