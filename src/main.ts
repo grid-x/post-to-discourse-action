@@ -42,7 +42,8 @@ export async function run(
         .post('/posts.json', {
           raw: postBody,
           topic_id: discourseTopicId,
-          reply_to_post_number: discourseTopicId
+          reply_to_post_number: discourseTopicId,
+          skip_validations: true
         })
         .then(({ data }) => {
           core.debug(JSON.stringify(data, null, 2))
