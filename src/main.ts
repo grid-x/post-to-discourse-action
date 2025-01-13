@@ -41,7 +41,7 @@ export async function run(
       return http
         .post('/posts.json', {
           raw: postBody,
-         topic_id: discourseTopicId,
+          topic_id: discourseTopicId,
           reply_to_post_number: discourseTopicId,
           skip_validations: true
         })
