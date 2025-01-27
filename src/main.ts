@@ -69,8 +69,7 @@ export async function run(
 
     const postBody = (content: string, commit: string): string =>
       content
-        ? `# Changelog ${new Date().toISOString()}
-${content}
+        ? `${content}
 
 (sha ${commit.trim()})
 `
