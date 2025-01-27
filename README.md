@@ -19,11 +19,11 @@ finally upload the changelogs with the action from this repository.
   "community.developer.gridx.de
 - `discourse_topic_id` - Use this to reply to a topic: the ID of the Discourse topic to reply to. You can find
   the ID, e.g., by inspecting your post in the browser and looking for
-  `data-topic-id="<n>"` in the `article` element. (XPath `//h1/@data-topic-id`). **If both topic and post id are given, topic id takes precedence and a new reply is added**.
+  `data-topic-id="<n>"` in the `article` element. (XPath `//h1/@data-topic-id`). **If both topic and post ID are given, topic ID takes precedence and a new reply is added**.
   ![Discourse Topic ID](doc-topic-id.png)
 - `discourse_post_id` - Use this to replace the contents of a post: the ID of the Discourse post to reply to. You can find
   the ID, e.g., by inspecting your post in the browser and looking for
-  `data-post-id="<n>"` in the `article` element. (XPath `//article/@data-post-id`). If there are multiple posts in the topic, make sure to find the correct one to replace. **If both topic and post id are given, topic id takes precedence and a new reply is added**.
+  `data-post-id="<n>"` in the `article` element. (XPath `//article/@data-post-id`). If there are multiple posts in the topic, make sure to find the correct one to replace. **If both topic and post ID are given, topic ID takes precedence and a new reply is added**.
 - `discourse_api_key` - your discourse API key. It needs `topics:write`
   permissions. ![Discourse API Key](doc-discourse-api-key.png)
 - `discourse_user` - the discourse user on whose behalf the action should be
