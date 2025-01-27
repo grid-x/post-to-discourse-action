@@ -19,8 +19,7 @@ const commit: string = execSync('git rev-parse --short HEAD').toString()
 const content = 'I am the replacement!'
 const contentFile = './test-post.md'
 
-
-// for exploratory testing, 
+// for exploratory testing,
 // replace the topic id w/ "" to update a post and
 // replace contentFile w/ "" to use content over contentFile
 run(

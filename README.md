@@ -1,7 +1,8 @@
 # Post a string or the contents of a file to a Discourse topic
 
 This repository provides a GitHub Action to post a string or the contents of a
-given file to a specific Discourse topic, either adding a new reply or replacing a single post's content.
+given file to a specific Discourse topic, either adding a new reply or replacing
+a single post's content.
 
 We use it as part of our API documentation management suite:
 [Rapidoc](https://rapidocweb.com/) as a [Discourse](https://discourse.org/)
@@ -17,13 +18,17 @@ finally upload the changelogs with the action from this repository.
 
 - `discourse_url` - your discourse instance domain, e.g.
   "community.developer.gridx.de
-- `discourse_topic_id` - Use this to reply to a topic: the ID of the Discourse topic to reply to. You can find
-  the ID, e.g., by inspecting your post in the browser and looking for
-  `data-topic-id="<n>"` in the `article` element. (XPath `//h1/@data-topic-id`). **If both topic and post ID are given, topic ID takes precedence and a new reply is added**.
-  ![Discourse Topic ID](doc-topic-id.png)
-- `discourse_post_id` - Use this to replace the contents of a post: the ID of the Discourse post to reply to. You can find
-  the ID, e.g., by inspecting your post in the browser and looking for
-  `data-post-id="<n>"` in the `article` element. (XPath `//article/@data-post-id`). If there are multiple posts in the topic, make sure to find the correct one to replace. **If both topic and post ID are given, topic ID takes precedence and a new reply is added**.
+- `discourse_topic_id` - Use this to reply to a topic: the ID of the Discourse
+  topic to reply to. You can find the ID, e.g., by inspecting your post in the
+  browser and looking for `data-topic-id="<n>"` in the `article` element. (XPath
+  `//h1/@data-topic-id`). **If both topic and post ID are given, topic ID takes
+  precedence and a new reply is added**. ![Discourse Topic ID](doc-topic-id.png)
+- `discourse_post_id` - Use this to replace the contents of a post: the ID of
+  the Discourse post to reply to. You can find the ID, e.g., by inspecting your
+  post in the browser and looking for `data-post-id="<n>"` in the `article`
+  element. (XPath `//article/@data-post-id`). If there are multiple posts in the
+  topic, make sure to find the correct one to replace. **If both topic and post
+  ID are given, topic ID takes precedence and a new reply is added**.
 - `discourse_api_key` - your discourse API key. It needs `topics:write`
   permissions. ![Discourse API Key](doc-discourse-api-key.png)
 - `discourse_user` - the discourse user on whose behalf the action should be
@@ -32,9 +37,11 @@ finally upload the changelogs with the action from this repository.
   obtained using `$GITHUB_SHA` when running in an action or with
   `git rev-parse --short HEAD`
 - `content_file` - the (text) file containing the contents to be posted,
-  relative to the repositories root. Use either this or `content` directly. **If both are present, content file takes precedence.**
+  relative to the repositories root. Use either this or `content` directly. **If
+  both are present, content file takes precedence.**
 - `content` - the contents to be posted. Use either this or `content_file` to
-  load the content from a file. D'uh. **If both are present, content file takes precedence.**
+  load the content from a file. D'uh. **If both are present, content file takes
+  precedence.**
 
 ## Instructions
 
@@ -70,7 +77,7 @@ Example: Replacing a single post with a fixed string
     discourse_api_key: ${{secrets.DISCOURSE_API_KEY}}
     discourse_user: ${{secrets.DISCOURSE_USER}}
     github_sha: ${{env.SHORT_SHA}}
-    content: "Post <n> will be replaced by this"
+    content: 'Post <n> will be replaced by this'
 ```
 
 ## Development

@@ -13,10 +13,14 @@ inputs:
     description: 'Your discourse instance domain, e.g. "community.acme.com'
     required: true
   discourse_topic_id:
-    description: 'The ID of the Discourse topic to reply to. Leave empty and set `discourse_post_id` to update the original post.'
+    description:
+      'The ID of the Discourse topic to reply to. Leave empty and set
+      `discourse_post_id` to update the original post.'
     required: false
   discourse_post_id:
-    description: 'The ID of the Discourse post to replace with the content given. Leave empty and set `discourse_topic_id` to add a new reply to the topic.'
+    description:
+      'The ID of the Discourse post to replace with the content given. Leave
+      empty and set `discourse_topic_id` to add a new reply to the topic.'
     required: false
   discourse_api_key:
     description: 'Your discourse API key. It needs `topics:write` permissions'
