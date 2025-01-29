@@ -10,6 +10,7 @@ import { title } from 'process'
 export async function run(
   discourseUrl: string,
   discourseTopicId: string,
+  discoursePostId: string,
   discourseApiKey: string,
   discourseUser: string,
   commit: string,
@@ -38,29 +39,37 @@ export async function run(
           Accept: 'application/json'
         }
       })
-      return http
-        .post('/posts.json', {
-          raw: postBody,
-          topic_id: discourseTopicId,
-          reply_to_post_number: discourseTopicId,
-          skip_validations: true
-        })
-        .then(({ data }) => {
-          core.debug(JSON.stringify(data, null, 2))
-        })
-        .catch(e => {
-          console.error(
-            'Error uploading file to Discourse',
-            JSON.stringify(e, null, 2)
-          )
-          throw e
-        })
+      const commonProps = {
+        raw: postBody,
+        skip_validations: true
+      }
+
+      return discourseTopicId
+        ? http // topic ID given, post reply
+            .post('/posts.json', {
+              ...commonProps,
+              topic_id: discourseTopicId,
+              reply_to_post_number: discourseTopicId
+            })
+        : http // post ID given, update this post
+            .put(`/posts/${discoursePostId}.json`, {
+              ...commonProps
+            })
+            .then(({ data }) => {
+              core.debug(JSON.stringify(data, null, 2))
+            })
+            .catch(e => {
+              console.error(
+                'Error uploading file to Discourse',
+                JSON.stringify(e, null, 2)
+              )
+              throw e
+            })
     }
 
     const postBody = (content: string, commit: string): string =>
       content
-        ? `# Changelog ${new Date().toISOString()}
-${content}
+        ? `${content}
 
 (sha ${commit.trim()})
 `
